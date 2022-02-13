@@ -6,6 +6,5 @@
 
 ## List of Detail Research Reports
 
- 1. [Title of your report](./discriptive_name_of_your_report_file.md)
- 2. 
-
+ 1. [A descriptive title of your report](./a_discriptive_name_of_your_report_file.md)
+ 2.
