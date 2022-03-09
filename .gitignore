@@ -9,4 +9,6 @@ Masking-Hans\Models\
 !*.ipynb
 !*.png
 !*.jpg
+!*.txt
+!*.jpeg
 
