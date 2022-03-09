@@ -1,6 +1,6 @@
 # Ignore everything
 *
-
+Masking-Hans\Models\
 # But not these files...
 !*/
 !.gitignore
