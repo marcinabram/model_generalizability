@@ -19,6 +19,7 @@ def main():
     number_of_epochs=50
     
     #Directory names
+    
     model_name="Block Masking Rv2,152"
     
     data_directory="Data/"+model_name
