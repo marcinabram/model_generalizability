@@ -83,9 +83,9 @@ def main():
     
     
     #Loading the dataset. Data is stored as a tensorflow dataset object
-    cifar100=tf.data.Dataset.list_files(r'..\pre-processing\cifar 100\train\*\*').shuffle(500).map(lambda y: process_image_xy_r(y,image_size))
+    cifar100=tf.data.Dataset.list_files(r'..\..\pre-processing\cifar 100\train\*\*').shuffle(500).map(lambda y: process_image_xy_r(y,image_size))
     
-    cifar100_test=tf.data.Dataset.list_files(r'..\pre-processing\cifar 100\test\*\*').shuffle(500).map(lambda y: process_image_xy(y,image_size)).repeat()
+    cifar100_test=tf.data.Dataset.list_files(r'..\..\pre-processing\cifar 100\test\*\*').shuffle(500).map(lambda y: process_image_xy(y,image_size)).repeat()
     
     
     #Creating an tensorflow dataset batch object for testing
@@ -182,7 +182,7 @@ def main():
         Model.save("Models/Model "+model_name)
         
     
-    create_image(image_directory,image_size,epoch_count,data_test,Model)
+    create_image(image_directory,image_size,(epoch_count+1),data_test,Model)
     
     cifar100_test=tf.data.Dataset.list_files(r'..\pre-processing\cifar 100\test\*\*').shuffle(500).map(lambda y: process_image_xy(y,image_size))
     batch_cifar100=cifar100_test.batch(2, drop_remainder=True)

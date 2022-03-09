@@ -83,9 +83,9 @@ def main():
     
     
     #Loading the dataset. Data is stored as a tensorflow dataset object
-    cifar100=tf.data.Dataset.list_files(r'..\pre-processing\cifar 100\train\*\*').shuffle(500).map(lambda y: process_image_xy_r(y,image_size))
+    cifar100=tf.data.Dataset.list_files(r'..\..\pre-processing\cifar 100\train\*\*').shuffle(500).map(lambda y: process_image_xy_r(y,image_size))
     
-    cifar100_test=tf.data.Dataset.list_files(r'..\pre-processing\cifar 100\test\*\*').shuffle(500).map(lambda y: process_image_xy(y,image_size)).repeat()
+    cifar100_test=tf.data.Dataset.list_files(r'..\..\pre-processing\cifar 100\test\*\*').shuffle(500).map(lambda y: process_image_xy(y,image_size)).repeat()
     
     
     #Creating an tensorflow dataset batch object for testing
@@ -182,9 +182,9 @@ def main():
         Model.save("Models/Model "+model_name)
         
     
-    create_image(image_directory,image_size,epoch_count,data_test,Model)
+    create_image(image_directory,image_size,(epoch_count+1),data_test,Model)
     
-    cifar100_test=tf.data.Dataset.list_files(r'..\pre-processing\cifar 100\test\*\*').shuffle(500).map(lambda y: process_image_xy(y,image_size))
+    cifar100_test=tf.data.Dataset.list_files(r'..\..\pre-processing\cifar 100\test\*\*').shuffle(500).map(lambda y: process_image_xy(y,image_size))
     batch_cifar100=cifar100_test.batch(2, drop_remainder=True)
     
     #Looping through all of the test images. Doing a full evaluation of the model
@@ -255,29 +255,34 @@ def mask_data(image_size,data,Model):
     
     
     #Slightly easier to find max if we flatten the image
-    line_image=tf.keras.layers.Flatten()(gradients)
+    gradients=tf.keras.layers.Flatten()(gradients)
     
     
-    #This is where we actually apply the mask
-    new_data=tf.Variable(line_image)
     
     #The mask is applied to the top N pixels with the highest gradient (in magnitude)
-    absolute=tf.math.abs(new_data)
+    absolute=tf.math.abs(gradients)
+    
+    data=tf.Variable(data)
     
     #For every image in the batch
-    for i in range(line_image.shape[0]):
+    for i in range(data.shape[0]):
         
         #Finding the top K (in thase case top 27) gradients
-        result=tf.math.top_k(absolute[i],k=(((3)**2)*3))
+        result=tf.math.top_k(absolute[i],k=(3*3*3))
         
         
         for next_index in result.indices.numpy():
-            new_data[i,next_index].assign(0)
-        
-    #Reshaping back into an image
-    new_data=tf.keras.layers.Reshape([image_size,image_size,3])(tf.convert_to_tensor(new_data))
+            
+            #Getting indices of the data
+            row=tf.cast(next_index%image_size,dtype=tf.int32)
+            column=tf.cast((next_index%(image_size**2))/image_size,dtype=tf.int32)
+            channel=tf.cast((next_index/(image_size**2)),dtype=tf.int32)
+            
+            data[i,row,column,channel].assign(0)
     
-    return new_data
+
+    
+    return tf.convert_to_tensor(data)
 
 #Getting images with data augmentation
 def process_image_xy_r(file_path,image_size):
