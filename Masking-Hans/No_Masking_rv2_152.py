@@ -91,11 +91,6 @@ def main():
     #Creating an tensorflow dataset batch object for testing
     batch_cifar100_test=cifar100_test.batch(batch_size, drop_remainder=True)
     
-    #Getting images to display
-    batch_cifar100_example=cifar100_test.batch(16, drop_remainder=True)
-    
-    cifar100_next_batch=next(iter(batch_cifar100_example))
-    data_test,Labels=cifar100_next_batch
     
     #Keeping track of the number of training steps
     step=0
@@ -113,9 +108,6 @@ def main():
             #if we're restarting only train on the images we haven't seen in an epoch
             with tf.device('/GPU:0'):
                 
-                #Every Epoch save some example images from the test set
-                if(step%390==0):
-                    create_image(image_directory,image_size,epoch_count,data_test,Model)
                 
                 
                 
@@ -176,7 +168,6 @@ def main():
         Model.save("Models/Model "+model_name)
         
     
-    create_image(image_directory,image_size,epoch_count,data_test,Model)
     
     cifar100_test=tf.data.Dataset.list_files(r'..\..\pre-processing\cifar 100\test\*\*').shuffle(500).map(lambda y: process_image_xy(y,image_size))
     batch_cifar100=cifar100_test.batch(2, drop_remainder=True)
@@ -200,78 +191,7 @@ def main():
                       str(metrics[0]),"\n"])
         f.close()
 
-def create_image(image_directory,image_size,epoch_count,data_test,Model):
-    
-    image_array_original=[]
-    for i in range(4):
-        image_list=[]
-        for j in range(4):
-            image_list.append(Image.fromarray(np.uint8(data_test[i*4+j]*255)))
-        image_array_original.append(image_list)
-    
-    #Creating the mask
-    data_test_mask=mask_data(image_size,data_test,Model)
-    
-    #saving the masked images
-    image_array_masked=[]
-    for i in range(4):
-        image_list=[]
-        for j in range(4):
-            image_list.append(Image.fromarray(np.uint8(data_test_mask[i*4+j]*255)))
-        image_array_masked.append(image_list)
-    
-    
-    full_image=Image.new('RGB', (image_size*2*2, image_size*2*2))
-    
-    for i in range(4):
-        for j in range(4*2):
-            if(j%2==0):
-                full_image.paste(image_array_original[i][int(j/2)], (j*image_size,i*image_size))
-            if(j%2==1):
-                full_image.paste(image_array_masked[i][int(j/2)], (j*image_size,i*image_size))
-    full_image.save(image_directory+"/"+str(epoch_count)+".jpeg")
-            
-    
-#This function calculates and applies the gradient based masking to the images
-def mask_data(image_size,data,Model):
-    
-    #Calculating the gradients. Note this can also be used to do a basic
-    #adversarial attack on the model for training easily 
-    #I'm omitting this code to test the validity of my technique 
-    #in isolation. Will test at a later date
-    #Just need to add the line data+=alpha*gradients (alpha is a constant)
-    with tf.GradientTape() as tape_image:
-        tape_image.watch(data)
-        classification_vector=Model(data,training=False)
-        
-    #Actually getting the gradient
-    gradients=tape_image.gradient(classification_vector, data)
-    
-    
-    #Slightly easier to find max if we flatten the image
-    line_image=tf.keras.layers.Flatten()(gradients)
-    
-    
-    #This is where we actually apply the mask
-    new_data=tf.Variable(line_image)
-    
-    #The mask is applied to the top N pixels with the highest gradient (in magnitude)
-    absolute=tf.math.abs(new_data)
-    
-    #For every image in the batch
-    for i in range(line_image.shape[0]):
-        
-        #Finding the top K (in thase case top 27) gradients
-        result=tf.math.top_k(absolute[i],k=(((3)**2)*3))
-        
-        
-        for next_index in result.indices.numpy():
-            new_data[i,next_index].assign(0)
-        
-    #Reshaping back into an image
-    new_data=tf.keras.layers.Reshape([image_size,image_size,3])(tf.convert_to_tensor(new_data))
-    
-    return new_data
+
 
 #Getting images with data augmentation
 def process_image_xy_r(file_path,image_size):
