@@ -1,14 +1,11 @@
 # Ignore everything
 *
-Masking-Hans\Models\
 # But not these files...
 !*/
 !.gitignore
 !*.py
 !*.md
 !*.ipynb
-!*.png
-!*.jpg
 !*.txt
-!*.jpeg
-
+# If you really need to commit a larger file (png, jpg, pickle, etc.)
+# use the force flag, e.g., `git add --force my/very/important/file.foo`

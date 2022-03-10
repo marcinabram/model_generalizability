@@ -24,7 +24,7 @@ See detailed reports in the [loss_landscape](loss_landscape) folder.
 
 *A short summary of the main results*
 
-*Link to a detailed report*
+See detailed reports in the [generalization](generalization) folder.
 
 ## Part 3: Neuron Importance
 
