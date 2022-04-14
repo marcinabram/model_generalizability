@@ -1,5 +1,8 @@
 # Ignore everything
 *
+generalization/masked_input/images/
+generalization/masked_input/Data/
+generalization/masked_input/Models/
 # But not these files...
 !*/
 !.gitignore
