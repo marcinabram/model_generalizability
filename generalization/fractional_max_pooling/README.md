@@ -20,7 +20,8 @@ The Architectures selected are as follows:
 
 ## Main Results
 
-![Dummy Plot](pics/dummy_plot.png)
+![Cifar10_Training_Loss](pics/metric_loss_cifar10.png)
+![Cifar10_Training_Accuracy](pics/metric_accuracy_cifar10.png)
 
 ## Discussion
 
