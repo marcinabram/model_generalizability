@@ -21,10 +21,10 @@ The Architectures selected are as follows:
 ## Main Results
 
 ``` Cifar10 Training and Validation Loss```
-![Cifar10_Training_Loss](pics/metric_loss_cifar10.png=250x250)
+![Cifar10_Training_Loss](pics/metric_loss_cifar10.png =250x250)
 
 ``` cifar10 Training and Validation Accuracy ```
-![Cifar10_Training_Accuracy](pics/metric_accuracy_cifar10.png=250x250)
+![Cifar10_Training_Accuracy](pics/metric_accuracy_cifar10.png =250x250)
 
 ## Discussion
 
