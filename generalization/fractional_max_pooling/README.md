@@ -22,7 +22,7 @@ The Architectures selected are as follows:
 
 ``` Cifar10 Training and Validation Loss```
 
-<center><img src="pics/metric_loss_cifar10.png" width="400" height="400" /></center>
+<center><img src="pics/metric_loss_cifar10.png" width="75%" height="75%" /></center>
 <!-- ![Cifar10_Training_Loss](pics/metric_loss_cifar10.png =250x250) -->
 
 ``` cifar10 Training and Validation Accuracy ```
