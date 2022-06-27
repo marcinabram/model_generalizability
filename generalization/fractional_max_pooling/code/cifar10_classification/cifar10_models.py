@@ -41,10 +41,10 @@ class FullyConnectedNet(nn.Module):
         self.dp = nn.ModuleList([nn.Dropout(p=self.rate_) for idx in range(len(self.hn_)+1)])
         self.last = nn.Linear(self.hn_[-1], self.c_)
         self.act = nn.ReLU()
-        if self.c_ > 2:
-            self.final_act = nn.Softmax(dim=0)
-        else:
-            self.final_act = nn.Sigmoid()
+        # if self.c_ > 2:
+        #     self.final_act = nn.Softmax(dim=0)
+        # else:
+        #     self.final_act = nn.Sigmoid()
         
     def forward(self, X):
         
@@ -58,7 +58,7 @@ class FullyConnectedNet(nn.Module):
             out = self.act(out)
             out = self.dp[idx+1](out)
         out = self.last(out)
-        out = self.final_act(out)
+        # out = self.final_act(out)
         return out
 
 
@@ -67,10 +67,10 @@ class FullyConnectedNet(nn.Module):
 # In[3]:
 
 
-hn_ = [256, 128]
-c_ = 10
-model = FullyConnectedNet(hn_, c_, 0.5, 3072)
-summary(model, input_size=(3, 32, 32))
+# hn_ = [256, 128]
+# c_ = 10
+# model = FullyConnectedNet(hn_, c_, 0.5, 3072)
+# summary(model, input_size=(3, 32, 32))
 
 
 # # VGG Network - Pytorch
@@ -194,14 +194,14 @@ class VGG(nn.Module):
 # In[7]:
 
 
-k_list = [64, 128, 256, 512, 512]
-l_list = [2, 2, 3, 3, 3]
-h_list = [256, 128]
-classes = 10 
-dp_list = [0.4, 0.5]
+# k_list = [64, 128, 256, 512, 512]
+# l_list = [2, 2, 3, 3, 3]
+# h_list = [256, 128]
+# classes = 10 
+# dp_list = [0.4, 0.5]
 
-model = VGG(in_channels=3, out_channel_list=k_list, layers=l_list, h_list=h_list, classes=classes, dp_list=dp_list)
-summary(model, input_size=(3, 32, 32))
+# model = VGG(in_channels=3, out_channel_list=k_list, layers=l_list, h_list=h_list, classes=classes, dp_list=dp_list)
+# summary(model, input_size=(3, 32, 32))
 
 
 # # Fractional Max Pooling Network - Pytorch
@@ -276,10 +276,10 @@ class FMPNet(nn.Module):
             [nn.Dropout(p=dp_list[idx]) for idx in range(self.layers)]
         )
 
-        if classes > 2:
-            self.final_act = nn.Softmax(dim=0)
-        else:
-            self.final_act = nn.Sigmoid()
+        # if classes > 2:
+        #     self.final_act = nn.Softmax(dim=0)
+        # else:
+        #     self.final_act = nn.Sigmoid()
 
         self.final = nn.Sequential(
             C2(out_channel_list[-1], out_channel_list[-1]),
@@ -289,7 +289,7 @@ class FMPNet(nn.Module):
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(out_channel_list[-1], classes),
-            self.final_act
+            # self.final_act
         )
     def forward(self, X):
 
@@ -308,12 +308,12 @@ class FMPNet(nn.Module):
 # In[14]:
 
 
-k_list = [32, 64, 96, 128, 160, 192]
-d_list = [0.3, 0.33, 0.37, 0.4, 0.45, 0.5]
-Classes = 10
-fraction = 1/np.sqrt(2)
-m = FMPNet(3, k_list, d_list, fraction,Classes)
-summary(m, input_size=(3, 32, 32))
+# k_list = [32, 64, 96, 128, 160, 192]
+# d_list = [0.3, 0.33, 0.37, 0.4, 0.45, 0.5]
+# Classes = 10
+# fraction = 1/np.sqrt(2)
+# m = FMPNet(3, k_list, d_list, fraction,Classes)
+# summary(m, input_size=(3, 32, 32))
 
 
 # ### CompareNet
@@ -360,10 +360,10 @@ class MaxPool2DNet(nn.Module):
             [nn.Dropout(p=dp_list[idx]) for idx in range(layer_length)]
         )
 
-        if classes > 2:
-            self.final_act = nn.Softmax(dim=0)
-        else:
-            self.final_act = nn.Sigmoid()
+        # if classes > 2:
+        #     self.final_act = nn.Softmax(dim=0)
+        # else:
+        #     self.final_act = nn.Sigmoid()
 
         self.final = nn.Sequential(
             C2(out_channel_list[-1], out_channel_list[-1]),
@@ -373,7 +373,7 @@ class MaxPool2DNet(nn.Module):
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(out_channel_list[-1], classes),
-            self.final_act
+            # self.final_act
         )
 
     def forward(self, X):
@@ -398,11 +398,11 @@ class MaxPool2DNet(nn.Module):
 # In[28]:
 
 
-k_list = [32, 64, 96, 128, 160, 192]
-d_list = [0.3, 0.33, 0.37, 0.4, 0.45, 0.5]
-Classes = 10
-m = MaxPool2DNet(3, k_list, d_list, Classes)
-summary(m, input_size=(3, 32, 32))
+# k_list = [32, 64, 96, 128, 160, 192]
+# d_list = [0.3, 0.33, 0.37, 0.4, 0.45, 0.5]
+# Classes = 10
+# m = MaxPool2DNet(3, k_list, d_list, Classes)
+# summary(m, input_size=(3, 32, 32))
 
 
 # In[ ]:
