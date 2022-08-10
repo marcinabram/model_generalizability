@@ -4,7 +4,7 @@ By Saurabh Koshatwar et al. (2022)
 
 ## Motivation
 
-...
+Study the generalization of deep learning models to rotation and approaches to improve it.
 
 ## Overview
 
