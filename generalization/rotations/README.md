@@ -8,11 +8,12 @@ Study the generalization of deep learning models to rotation and approaches to i
 
 ## Overview
 
-...
+In this study, we used ResNet-50 to train on the CIFAR dataset in order to test generalization to rotations, with the source distribution being the original images and the target distribution being the modified dataset produced by rotating the images at specific angles. We compared the outcomes using the L1 regularized, L2 regularized, and dropout ResNet-50 model. performed some experiments to support the findings, and then compared the results with the state of the art Equivariant CNN model.
 
 ## Main Results
 
-![Dummy Plot](pics/dummy_plot.png)
+
+![Equivariant CNNs Results](https://user-images.githubusercontent.com/35650601/191151300-c98c65dd-9cf3-4adf-92dd-d10f58477301.png)
 
 ## Discussion
 
