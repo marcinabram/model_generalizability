@@ -13,7 +13,7 @@ In this study, we used ResNet-50 to train on the CIFAR dataset in order to test 
 ## Main Results
 
 
-![Equivariant CNNs Results](reports/e2cnn_results.jpg=300x450)
+![Equivariant CNNs Results](reports/e2cnn_results.jpg =300x450)
 
 ## Discussion
 
