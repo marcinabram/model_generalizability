@@ -13,5 +13,7 @@ By Saurabh Koshatwar et al. (2022)
 
 ## How to Run My Code
 
-...
-
+### Install Library
+```
+pip install e2cnn
+```
